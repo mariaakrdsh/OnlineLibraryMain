@@ -1,0 +1,69 @@
+{% extends 'layout/base.html' %}
+
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block content %}
+{% include  'layout/button_new.html' %}
+
+
+<div class="container">
+
+
+    {% if search_text %}
+    RESULT SEARCH: {{ search_text }}
+    {% endif %}
+
+    <div class="row">
+
+        {% if books %}
+        {% for book in books %}
+        <div class="col-md-4">
+            <div id="logo" class="jumbotron">
+                <h5><a href="{% url 'book_item' book.id %}"> {{ book.name }} </a></h5>
+                <p><b>
+                    {% for author in book.authors.all %}
+                    <small> <a href="{% url 'author_item' author.id %}"> {{ author.name }} {{author.surname}},</a>
+                    </small>
+
+                    {% endfor %}</b>
+                </p>
+
+                <p> {{ book.description }} </p>
+                <b><p> Total count :{{ book.count }} </p></b>
+                {{ book.year }} | {{ book.date_of_issue }}<br>
+                <small><p> id {{ book.id }}</p></small>
+                <small>
+    <div class="btn-group btn-group-sm" role="group">
+        <p><a class="btn btn-sm btn-secondary" href="{% url 'book_item' book.id %}" role="button">View
+            &raquo;</a></p>
+        {% if user.role == 1 %}
+        <p><a class="btn btn-sm btn-primary" href="{% url 'add_book' book.id %}"
+              role="button">Edit
+            &raquo;</a></p>
+        <p><a class="btn btn-sm btn-danger" href="{% url 'delete_book' book.id %}" role="button">Delete
+            &raquo;</a></p>
+        {% endif %}
+    </div>
+</small>
+            </div>
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+        <p>No books!</p>
+        {% endif %}
+
+    </div>
+
+
+</div>
+
+<hr>
+
+</div> <!-- /container -->
+
+{% endblock content %}
