@@ -8,6 +8,7 @@ import datetime
 
 from rest_framework import viewsets
 from .serializers import OrderSerializer
+from django.db.models import Q
 
 
 # for API
@@ -21,9 +22,29 @@ class OrderViewSet(viewsets.ModelViewSet):
 #
 #     return render(request, 'order/index.html', context=data)
 
+def orders_find(request):
+    context = {'orders': Order.objects.all(), "search_text": ""}
+    if request.POST:
+        search_name = request.POST['search_name']
+        search_id = request.POST['search_id']
+
+        if search_name:
+            user = CustomUser.objects.filter(email__icontains=search_name)
+            orders = Order.objects.filter(user__in=user)
+            context = {'orders': orders, "search_text": search_name}
+        if search_id:
+            orders = Order.objects.filter(id=search_id)
+            context = {'orders': orders, "search_text": search_id}
+
+    return context
+
 
 def orders(request):
-    context = {'orders': Order.objects.all()}
+    context = {"search_text": "Login as librarian to see orders"}
+    if request.user.id:
+        if request.user.role == 1:
+            context = orders_find(request)
+
     return render(request, 'order/orders_list.html', context)
 
 

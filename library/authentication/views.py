@@ -95,7 +95,7 @@ def create_user_new(request, user_id=None):
             new_user.save()
         else:
             return render(request, 'authentication/register_new.html', {'form': form, 'title': title})
-        return redirect('users')
+        return redirect('books')
 
 
 def users_new(request):
@@ -125,26 +125,26 @@ def login_(request):
     return render(request, 'authentication/login_new.html', {'form': form, 'title': title})
 
 
-def reset_passwd(request):
-    form = ResetPassword()
-    title = 'Reset password'
-    if request.method == 'GET':
-
-        return render(request, 'authentication/register_new.html', {'form': form, 'title': title})
-    else:
-        old_password = request.POST['old_password']
-        user = CustomUser.get_by_id(request.user.id)
-        passwd_check = user.check_password(old_password)
-        if passwd_check:
-            form = ResetPassword(request.POST)
-            if form.is_valid():
-                user.set_password(form.cleaned_data['new_password2'])
-                user.save()
-            else:
-                return render(request, 'authentication/register_new.html', {'form': form, 'title': title})
-
-        else:
-            messages.info(request, f"The old password is not valid")
-            return render(request, 'authentication/register_new.html', {'form': form, 'title': title})
-
-        return redirect('users')
+# def reset_passwd(request):
+#     form = ResetPassword()
+#     title = 'Reset password'
+#     if request.method == 'GET':
+#
+#         return render(request, 'authentication/register_new.html', {'form': form, 'title': title})
+#     else:
+#         old_password = request.POST['old_password']
+#         user = CustomUser.get_by_id(request.user.id)
+#         passwd_check = user.check_password(old_password)
+#         if passwd_check:
+#             form = ResetPassword(request.POST)
+#             if form.is_valid():
+#                 user.set_password(form.cleaned_data['new_password2'])
+#                 user.save()
+#             else:
+#                 return render(request, 'authentication/register_new.html', {'form': form, 'title': title})
+#
+#         else:
+#             messages.info(request, f"The old password is not valid")
+#             return render(request, 'authentication/register_new.html', {'form': form, 'title': title})
+#
+#         return redirect('users')

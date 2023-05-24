@@ -53,12 +53,13 @@
         <!--        <a class="btn btn-sm btn-primary" href="/delete/{{ id }}/">Delete User</a>-->
         <br><br>
         <a class="btn btn-sm btn-primary" href="{% url 'update_user' user_id=id%}">Update User</a>
-        <a class="btn btn-danger btn-sm" href="{% url 'delete_user'  user_id=id%}">Delete User</a>
-
+        {% if user.role == 1 %}
+            <a class="btn btn-danger btn-sm" href="{% url 'delete_user'  user_id=id%}">Delete User</a>
+        {% endif %}
         <br>
         {% if request.user.id == id %}
         <br>
-         <a class="link" href="{% url 'reset_password' %}">Create new password</a>
+{#         <a class="link" href="{% url 'reset_password' %}">Create new password</a>#}
         <br>
         {% endif %}
 
