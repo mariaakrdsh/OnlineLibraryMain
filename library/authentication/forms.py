@@ -57,16 +57,3 @@ class CreateUser(UpdateUser):
 class LoginUser(forms.Form):
     email = forms.EmailField(label='Email', widget=forms.EmailInput)
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-
-
-class ResetPassword(forms.Form):
-    old_password = forms.CharField(label='Old password', widget=forms.PasswordInput)
-    new_password = forms.CharField(label='New password', widget=forms.PasswordInput)
-    new_password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
-
-    def clean_new_password2(self):
-        cd = self.cleaned_data
-        if cd['new_password'] != cd['new_password2']:
-            raise forms.ValidationError('Passwords don\'t match.')
-
-        return cd['new_password2']

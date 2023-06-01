@@ -14,13 +14,6 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
 
 
-# def index(request):
-#     data = Book.objects.all().order_by('?')[:3]
-#     context = {"books": data}
-#     print(data)
-#     return render(request, 'book/index.html', context=context)
-
-
 def books_find(request):
     context = {'books': Book.objects.all(), "search_text": ""}
     if request.POST:
@@ -62,25 +55,6 @@ def book_item(request, book_id):
 def delete_book(request, pk):
     Book.delete_by_id(pk)
     return redirect('/book/books_list')
-
-
-# def create_book(request):
-#     # context = {}
-#     error = ''
-#     new_book = Book()
-#     if request.method == 'POST':
-#         name = request.POST['name']
-#         description = request.POST['description']
-#         count = request.POST['count']
-#
-#         new_book = new_book.create(name, description, count)
-#         book_id = str(new_book.id)
-#         return redirect('/books/' + book_id)
-#         # return redirect('/books/')
-#
-#     context = {'book': new_book, 'error': error}
-#     return render(request, 'book/create_book.html', context)
-#     # return render(request, 'book/books.html', context)
 
 
 def add_book(request, book_id=0):

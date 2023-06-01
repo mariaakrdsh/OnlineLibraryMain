@@ -17,11 +17,6 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
 
 
-# def index(request):  # название функции должно совпадать folder/file.html
-#     data = {'title': 'ORDER'}
-#
-#     return render(request, 'order/index.html', context=data)
-
 def orders_find(request):
     context = {'orders': Order.objects.all(), "search_text": ""}
     if request.POST:
@@ -35,7 +30,6 @@ def orders_find(request):
         if search_id:
             orders = Order.objects.filter(id=search_id)
             context = {'orders': orders, "search_text": search_id}
-
     return context
 
 
@@ -52,12 +46,8 @@ def order_item(request, order_id):
     order = Order.objects.get(pk=order_id)
 
     context = {'user': order.user, 'book': order.book,
-               # 'created_at': order.created_at,
-               # 'end_at': order.end_at,
-               # 'plated_end_at': order.plated_end_at,
                "order": order
                }
-    # context={"orders": order}
     return render(request, 'order/order_details.html', context)
 
 
@@ -72,26 +62,6 @@ def close_order(request, pk):
     order.end_at = datetime.datetime.now()
     order.save()
     return redirect('/orders/')
-
-
-# def create_order(request):
-#     # context = {}
-#     error = ''
-#     new_order = Order()
-#     context = {}
-#     if request.method == 'POST':
-#         userid = request.POST['userid']
-#         user = CustomUser.get_by_id(userid)
-#         bookid = str(request.POST.get('bookid', False))
-#         book = Book.get_by_id(bookid)
-#         data_time = request.POST['data_time']
-#         new_order = new_order.create(user, book, data_time)
-#         order_id = str(new_order.id)
-#         return redirect('/orders/orders/' + order_id)
-#
-#     context = {'order': new_order, 'books': Book.objects.all(), 'error': error}
-#     return render(request, 'order/create_order.html', context)
-#     # return render(request, 'order/orders_list.html', context)
 
 
 def add_order(request, order_id=0):

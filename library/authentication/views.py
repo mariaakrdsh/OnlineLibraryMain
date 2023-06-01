@@ -5,13 +5,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from order.models import Order
-from .forms import CreateUser, UpdateUser, LoginUser, ResetPassword
+from .forms import CreateUser, UpdateUser, LoginUser
 from .models import CustomUser
 
-# from book.models import Book
-# from .forms import BookForm
 from rest_framework import viewsets, generics, status
-from .serializers import UserSerializer, UserOrdersListSerializer  # ,UserListSerializer
+from .serializers import UserSerializer, UserOrdersListSerializer
 
 
 # for API
@@ -25,27 +23,8 @@ class UserAllOrdersListView(generics.ListAPIView):
 
     def get(self, request, *args, **kwargs):
         user_id = str(kwargs["user_id"]).split(",")
-        # self.queryset = Order.objects.filter(user=kwargs['user_id'], )
         self.queryset = Order.objects.filter(user__in=user_id, )
         return self.list(request, *args, **kwargs)
-
-
-class UserOrdersListView(generics.ListAPIView):
-    serializer_class = UserOrdersListSerializer
-
-    def get(self, request, *args, **kwargs):
-        order_id = str(kwargs["order_id"]).split(",")
-        self.queryset = Order.objects.filter(user=kwargs['user_id'], id__in=order_id)
-        return self.list(request, *args, **kwargs)
-
-    # def post(self, request, user_id, format=None):
-    #     # serializer = CustomUserOrderSerializer(data=request.data)
-    #     serializer_class = UserOrdersListSerializer(data=request.data)
-    #
-    #     if serializer_class.is_valid():
-    #         serializer_class.save()
-    #         return Response(serializer_class.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUES)
 
 
 def user_item(request, user_id):
@@ -124,27 +103,3 @@ def login_(request):
 
     return render(request, 'authentication/login_new.html', {'form': form, 'title': title})
 
-
-# def reset_passwd(request):
-#     form = ResetPassword()
-#     title = 'Reset password'
-#     if request.method == 'GET':
-#
-#         return render(request, 'authentication/register_new.html', {'form': form, 'title': title})
-#     else:
-#         old_password = request.POST['old_password']
-#         user = CustomUser.get_by_id(request.user.id)
-#         passwd_check = user.check_password(old_password)
-#         if passwd_check:
-#             form = ResetPassword(request.POST)
-#             if form.is_valid():
-#                 user.set_password(form.cleaned_data['new_password2'])
-#                 user.save()
-#             else:
-#                 return render(request, 'authentication/register_new.html', {'form': form, 'title': title})
-#
-#         else:
-#             messages.info(request, f"The old password is not valid")
-#             return render(request, 'authentication/register_new.html', {'form': form, 'title': title})
-#
-#         return redirect('users')

@@ -15,17 +15,15 @@ class PersonAdminForm(forms.ModelForm):
         return self.cleaned_data["first_name"]
 
 
-# admin.site.register(CustomUser)
 @admin.register(CustomUser)
 class AuthorAdmin(admin.ModelAdmin):
     form = PersonAdminForm
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
-        form.base_fields["first_name"].label = "First Name (Ім'я):"
-        form.base_fields["last_name"].label = "Last Name (Фамілія):"
-        form.base_fields["middle_name"].label = "Middle Name (По батькові):"
-        # form.base_fields["SAVE"].label = "Записати:"
+        form.base_fields["first_name"].label = "First Name"
+        form.base_fields["last_name"].label = "Last Name"
+        form.base_fields["middle_name"].label = "Middle Name"
 
         return form
 
@@ -55,10 +53,8 @@ class AuthorAdmin(admin.ModelAdmin):
         "is_active",
     )
     list_display_links = ('id', "email",
-                          # "first_name", "last_name",
                           "created_at", "updated_at", "last_login",
                           "role",
-                          # "is_active", "is_superuser", 'is_staff',
                           "password",
                           )
     list_filter = ("is_active", "is_superuser", 'is_staff', 'id',
@@ -70,14 +66,6 @@ class AuthorAdmin(admin.ModelAdmin):
     search_fields = ("email", "first_name", "last_name",)
     search_help_text = ("search_fields =  email, first_name, last_name")
 
-    # fields = ("last_login", "email",
-    #           "first_name", "last_name", "middle_name",
-    #           # "created_at", "__updated_at",
-    #           ("role",
-    #            "is_active", "is_superuser", 'is_staff',
-    #            ),
-    #           "password",
-    #           )
     readonly_fields = ("last_login",)
     fieldsets = (
         ('NOT Change',
@@ -88,7 +76,6 @@ class AuthorAdmin(admin.ModelAdmin):
          {
              "fields": ("email",
                         "first_name", "last_name", "middle_name",
-                        # "created_at", "__updated_at",
                         ("role", "is_active", "is_superuser", 'is_staff',),
 
                         )

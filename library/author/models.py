@@ -42,9 +42,7 @@ class Author(models.Model):
         :param author_id: SERIAL: the id of a Author to be found in the DB
         :return: author object or None if a user with such ID does not exist
         """
-        # return Author.objects.filter(id=author_id)
-        # return Author.get_by_id(author_id)
-        # return  Author.get_object_or_404()
+
         try:
             return Author.objects.get(pk=author_id)
         except:

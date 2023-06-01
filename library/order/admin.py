@@ -3,15 +3,11 @@ from .models import Order
 from django.utils.html import format_html
 
 
-# admin.site.register(Order)
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
 
     def user_details(self, obj):
         return [obj.user.email, str(obj.user.first_name) + " " + str(obj.user.last_name)]
-
-    def book_details(self, obj):
-        return [obj.book.name + " - " + str(obj.book.description)]
 
     def view_user_link(self, obj):
         from django.utils.html import format_html
@@ -26,12 +22,9 @@ class OrderAdmin(admin.ModelAdmin):
         return format_html(
             f'<a href="/admin/book/book/{obj.book.id}">{obj.book.id} {obj.book.name} </a>')
 
-    list_per_page = 5
-    list_max_show_all = 200
-    # date_hierarchy = "created_at"
     date_hierarchy = "end_at"
     empty_value_display = '---NOT returned!---'
 
-    list_display = ('id', "view_user_link", "view_book_link", "book_details", "created_at", "plated_end_at", "end_at",)
-    list_display_links = ('id', "book_details", "created_at", "plated_end_at", "end_at",)
+    list_display = ('id', "view_user_link", "view_book_link", "created_at", "plated_end_at", "end_at",)
+    list_display_links = ('id', "created_at", "plated_end_at", "end_at",)
     list_filter = ("user__email", "created_at", "plated_end_at", "end_at",)

@@ -18,7 +18,6 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-
     def update(self, instance, validated_data):
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.first_name)
@@ -39,8 +38,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserOrdersListSerializer(serializers.ModelSerializer):
     book = BookSerializer(read_only=True)
-
-    # user = UserSerializer(read_only=True)
 
     class Meta:
         model = Order

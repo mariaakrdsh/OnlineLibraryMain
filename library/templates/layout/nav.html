@@ -16,18 +16,24 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/author">Authors</a>
                     </li>
+                    {% if user.is_authenticated %}
+                    {% if user.role == 1 %}
                     <li class="nav-item">
                         <a class="nav-link" href="/order/">Orders</a>
                     </li>
                      <li class="nav-item">
                         <a class="nav-link" href="/api/v1/">API</a>
                     </li>
+                    {% endif %}
+                    {% endif %}
+
 
                 </ul>
 
                 <ul class="navbar-nav navbar-rigth">
                     {% if user.is_authenticated %}
                     {% if user.role == 1 %}
+
                     <li class="nav-item">
                         <a class="nav-link" href="/auth/">Users</a>
                     </li>
